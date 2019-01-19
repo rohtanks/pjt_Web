@@ -92,11 +92,20 @@
 		</dependency>
 
 		<!-- Servlet -->
-		<dependency>
+		<!-- WAS 실행 없이 Controller 테스트 코드 실행 시 -->
+		<!-- tomcat 서블릿 스펙과 동일하게 버전을 맞춰준다 -->
+		<!-- orig -->
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
+		</dependency> -->
+		<!-- chan -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
@@ -160,7 +169,24 @@
 			<version>${org.springframework-version}</version>
 			<!-- <scope>test</scope> -->
 		</dependency>
+		
+		<!-- log4jdbc-log4j -->
+		<!-- MyBatis 상세 로깅 -->
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
+			<!-- <scope>test</scope> -->
+		</dependency>
 		<!-- MyBatis 사용 위한 라이브러리(모듈) -->
+
+		<!-- JSON -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.5</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -15,10 +15,15 @@
 	<!-- JDBC 연결 처리 DataSource 설정 -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- <property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" /> -->
+		<!-- <property name="url"
+			value="jdbc:mysql://localhost:3306/test_web?useSSL=false&amp;serverTimezone=UTC" /> -->
+		<!-- log4jdbc 사용 위한 드라이버 클래스 및 URL -->	
 		<property name="driverClassName"
-			value="com.mysql.cj.jdbc.Driver" />
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/test_web?useSSL=false&amp;serverTimezone=UTC" />
+			value="jdbc:log4jdbc:mysql://localhost:3306/test_web?useSSL=false&amp;serverTimezone=UTC" />
 		<property name="username" value="testweb"></property>
 		<property name="password" value="shdk2040"></property>
 	</bean>
@@ -27,6 +32,20 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 스프링 동작 시 mybatis 설정 파일 동작 설정 -->
-		<property name="configLocation" value="classpath:/mybatis-config.xml" /> 
+		<property name="configLocation" value="classpath:/mybatis-config.xml" />
+		<!-- XML 매퍼 파일 인식 설정 -->
+		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml" />
 	</bean>
+	
+	<!-- SqlSessionTemplate 은 기본적인 트랜젝션 관리, 쓰레드 처리의 안정성 보장, DB연결과 종료 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- component-scan 사용시 context 설정 방법 -->
+	<!-- Service, Repository - root-context -->
+	<!-- Controller - servlet-context -->
+	<context:component-scan base-package="com.test.persistence" />
 </beans>
